@@ -9,7 +9,7 @@ APP_SHORTNAME = 'bestsellers' # used in some places like defining what our log o
 USER_APP_NAME = "Bestsellers Database"
 LOG_DIR = '/var/log/bestsellers/logs/' # you may want to manually make sure this exists
 
-# settings for uploading images
+# settings for uploading images updated 2/5/18
 UPLOAD_FOLDER = '/var/www/pyapps/bestsellers/static/data/bestsellers/images/'
 ALLOWED_EXTENSIONS = set(['png', 'PNG', 'jpg', 'jpeg', 'JPG', 'JPEG', 'gif', 'GIF'])
 
