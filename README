@@ -1,0 +1,20 @@
+App uses python 2.7 -- see requirements.txt for required python modules -- should be able to `pip install -r requirements.txt`
+
+Download images.tar (480MB) from this URL: https://brandeis.box.com/s/im4h0z7gu6fvpj2jmkob7tmzwytuhuc3
+Untar images.tar into a directory writeable by the user this app will be running under
+-  Create a symlink in static/ named `submitted_images` and point it at your new writeable images directory, wherever that is
+
+Create a mysql database named 'bestsellers'
+-  Run the bestsellers.sql file to populate this database
+
+Edit config.py, specifically updating these settings to match your server:
+     UPLOAD_FOLDER
+     LOG_DIR
+     DB_HOST
+     DB_PASS
+     DB_USER
+     MAIL_SERVER
+     MAIL_PORT
+     MAIL_DEFAULT_SENDER
+
+Once the application is running, assuming you're using the mysqldump included here, Dr. Unsworth's username is 'unsworth' and password is 'l6JetBQHTD'

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block main %}
+<style type="text/css">
+  .search {
+    padding: 6px 0px;
+  }
+  tr td {
+    padding-left: 6px;
+  }
+</style>
+
+<form action="search" method="get" class="right search" onsubmit="return ($('#text').val().length > 0)">
+  <input type="text" placeholder="Full text search" name="text" id="text" class="form-inline input-sm" />
+  <input type="submit" value="Search the DB" class="form-inline btn btn-primary" />
+</form>
+<table class="text-left">
+<tr>
+  <th>Book Author</th>
+  <th>Book Title</th>
+  <th>Year(s) Listed</th>
+  <th>Classification</th>
+  <th>Researcher</th>
+{% for u in users %}
+<tr>
+  <td>{{ u.book.author }}</td>
+  <td><a href="{{ url_for('view_submission', user_id=u.id) }}">{{ u.book.title }}</a></td>
+  <td>{% for y in u.book.years %}{{ y.year }}{% if not loop.last %}, {% endif %}{% endfor %}</td>
+  <td>{% if u.book.type == 'F' %}Fiction{% else %}Non-Fiction{% endif %}</td>
+  <td>{{ u.name }}</td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

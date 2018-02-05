@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block main %}
+<div>
+Searching for `{{ text }}` returned the following results:
+</div>
+
+<table>
+<tr>
+  <th>Book Author</th>
+  <th>Book Title</th>
+  <th>Year(s) Listed</th>
+  <th>Classification</th>
+  <th>Researcher</th>
+
+{% for u in users %}
+<tr>
+  <td>{{ u.book.author }}</td>
+  <td><a href="{{ url_for('view_submission', user_id=u.id) }}?hl={{ text }}">{{ u.book.title }}</a></td>
+  <td>{% for y in u.book.years %}{{ y.year }}{% if not loop.last %}, {% endif %}{% endfor %}</td>
+  <td>{% if u.book.type == 'F' %}Fiction{% else %}Non-Fiction{% endif %}</td>
+  <td>{{ u.name }}</td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

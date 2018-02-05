@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8 />
+    <title>20th-Century American Bestsellers</title>
+    <!-- Background image: https://www.flickr.com/photos/timetrax/376152628
+       Creative Commons Attribution-ShareAlike 2.0 Generic -->
+    <!--link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/reset.css') }}" /-->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/screen.css') }}" />
+    <style type="text/css">
+      html {
+        /* Must be here because url_for doesn't exist in css files. */
+        background: url("{{ url_for('static',filename='images/bookshelves.jpg') }}") no-repeat center center fixed;
+        background-size: cover;
+      }
+    </style>
+    {% block head %}
+    {% endblock %}
+  </head>
+  <body>
+    <header>
+      <div class="constrain">
+	<nav>
+	  <ul>
+	    <li><a href="{{ url_for('index') }}">Index</a></li>
+	  </ul>
+	</nav>
+      	<div id="login_info">
+	  {% if g.user %}
+	  You are logged in as: {{ g.user }}.
+	  {% else %}
+	  You are not logged in.
+	  {% endif %}
+	</div>
+    </header>
+    <div id="main">
+      	<div class="dev_notice">
+	  {% if config.DEBUG %}
+	  <section>DEBUG = True</section>
+	  {% endif %}
+	  {% if config.DEV_SERVER %}
+	  <section>DEVELOPMENT SERVER</section>
+	  {% endif %}
+	</div>
+	
+      <div id="header">
+	{% block header %}
+	<!-- img src="{{ url_for('static', filename='images/flasklogo.png') }}" alt="Flask Logo" title="Flask Logo"/-->
+	{% endblock %}	
+	{% with messages = get_flashed_messages() %}
+	{% if messages %}
+	<ul>
+	  {% for message in messages %}
+          <li>{{ message }} </li>
+	  {% endfor %}
+	</ul>
+	{% endif %}
+	{% endwith %}
+	{% if form %}
+	{% if form.errors.items() %}
+	{% for field_name, field_errors in form.errors.items() %}
+	<p>{{ field_name }} 
+	  <ul>{% for error in field_errors %}
+	    <li>{{ error }}</li>{% endfor %}
+	  </ul>{% endfor %}
+	</p>
+	{% endif %}
+	{% endif %}
+
+      </div>
+      <div id="sidebar">
+	{% block sidebar %}
+	{% endblock %}
+      </div>
+      {% block main %}
+      {% endblock %}
+      <br />
+
+      <!--footer>
+	<nav>
+	  <ul>
+	    <li><a href="{{ url_for('index') }}">Index</a></li>
+	  </ul>
+	</nav>
+      </footer-->
+    </div>
+  </body>
+</html>

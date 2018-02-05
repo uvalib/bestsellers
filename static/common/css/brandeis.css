@@ -1,0 +1,110 @@
+body {
+  padding-top: 50px;
+}
+
+a { color:#23527c}
+
+.content {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+.development {
+border:1px solid #CE4237;
+display:block;
+margin: 0 0 5px 0;
+padding:10px;
+border-radius:10px;
+}
+
+.test {
+border:1px solid #D2B48C;
+display:block;
+margin: 0 0 5px 0;
+padding:10px;
+border-radius:10px;
+}
+
+.error {
+background: #CE4237;
+color: #FFFFFF;
+display:block;
+margin: 0 0 5px 0;
+padding:10px;
+border-radius:10px;
+}
+
+.warn {
+background: #E59400;
+color: #FFFFFF;
+display:block;
+margin: 0 0 5px 0;
+padding:10px;
+border-radius:10px;
+}
+
+.info {
+background:#EEEEEE;
+display:block;
+margin: 0 0 5px 0;
+padding:10px;
+border-radius:10px;
+}
+
+
+table {
+width:100%;
+display:table;
+}
+
+th {
+text-align:center;
+background:#EEEEEE;
+padding:5px;
+border: 1px solid #CCCCCC;
+}
+
+td {
+border: 1px solid #CCCCCC; 
+}
+
+.navbar-inverse {
+    background-image: linear-gradient(to bottom, #024274 0px, #024274 15%);
+    background-repeat: repeat-x;
+}
+
+
+.navbar-inverse .navbar-brand, .navbar-inverse .navbar-nav > li > a  { color:#FFFFFF;}
+
+#loggedin {color:#999; text-align:right; font-size:0.8em;margin-bottom:0.8em}
+
+legend {margin-top:10px;}
+
+.login input, .search input, #searchform input {border-radius:5px; padding:5px; border:1px solid #ccc}
+
+.login label, .search label, table caption {display:none;}
+
+.search input[type="text"] {
+background:url(http://www.brandeis.edu/facguide/design/images/search.png) no-repeat right center;
+padding-right:30px;
+}
+
+#footer {
+    background:#EEEEEE;
+   font-size:0.9em;
+color:#666;
+padding:10px 30px;}
+
+
+.navbar-inverse .navbar-toggle {border-color:#FFFFFF}
+.navbar-inverse .navbar-toggle:hover {background:#23527C}
+
+@media only screen
+and (max-width: 500px)
+and (min-device-width: 320px) {
+input, select {width:100%;
+margin-bottom: 5px;
+}
+
+}
+

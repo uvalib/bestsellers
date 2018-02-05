@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+
+<h3 class="text-left">Hello {{ user.admin_name }}!</h3>
+
+<form action="" method="POST" class="text-left">
+  Your name is currently displayed as "{{ user.name }}". 
+  (<label style="font-weight:normal" class="small">I'd like to be anonymous 
+    <input type="checkbox" id="anon" value="anon" name="anon" {% if user.anonymous %}checked="checked"{% endif %} onchange="this.form.submit()"/>
+  </label>)
+</form>
+
+<p class="text-left">
+  <a href="{{ url_for('user.change_password')}}">Change your Password</a>
+</p>
+
+{% if user.book %}
+<p class="text-left">
+  <a href="{{ url_for('view_submission',user_id=user.id) }}">View your entry for "{{ user.book.title }}"</a>
+</p>
+
+<p class="text-left">
+  {% for a in assignments %}
+  Assignment {{ a.id }}: <a href="{{ url_for('assignment', assign_id=a.id) }}">{{ a.name }}</a><br />
+  {% endfor %}
+</p>
+
+<p class="text-left">
+  <a href="{{ url_for('supplements') }}">Add / edit supplements</a>
+</p>
+{% else %}
+<p class="text-left">
+  You can't access any assignments yet, you first need to <a href="{{ url_for('select_bestseller') }}">select a bestseller</a>.
+</p>
+{% endif %}
+
+{% endblock %}

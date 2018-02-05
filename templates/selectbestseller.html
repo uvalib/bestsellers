@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block main %}
+<p>
+  In order to participate in this class you need to select a bestseller from this list, you will complete all of your assignments with the same bestseller.
+</p>
+<p class="right small">
+  Skip selecting a bestseller for now and go to <a href="{{ url_for('students') }}?redirect=false">my profile page</a>.
+</p>
+
+<table>
+<tr>
+  <th>Book Author</th>
+  <th>Book Title</th>
+  <th>Year(s) Listed</th>
+  <th>Classification</th>
+  <th></th>
+{% for book in books %}
+<tr>
+  <form action="" method="POST" onsubmit="return confirm('Are you certain you wish to select {{book.title}} by {{book.author}}?');">
+  <input type="hidden" value="{{ book.id }}" name="book_id" />
+  <td>{{ book.author }}</td>
+  <td>{{ book.title }}</td>
+  <td>{% for y in book.years %}{{ y.year }}{% if not loop.last %}, {% endif %}{% endfor %}</td>
+  <td>{% if book.type == 'F' %}Fiction{% else %}Non-Fiction{% endif %}</td>
+  <td><input type="submit" value="Select" />
+  </form>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

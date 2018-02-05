@@ -1,0 +1,158 @@
+ <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+ 
+    <title>{% block page_title %}20th-Century American Bestsellers{% endblock %}</title>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+    <script src="{{ url_for('static',filename='js/jquery.highlight.js') }}"></script>
+    
+    <link rel="stylesheet" href="{{ url_for('static',filename='common/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='common/css/bootstrap-theme.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='common/css/brandeis.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/screen.css') }}">
+   
+    <script src="//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
+    <style>/* unvisited link */
+a:link {
+    color: blue;
+}
+
+/* visited link */
+a:visited {
+    color: blue;
+}
+
+/* mouse over link */
+a:hover {
+    color: red;
+}
+
+/* selected link */
+a:active {
+    color: yellow;
+}
+
+tr:hover 
+{background-color: #f5f5f5;}
+th, td {
+    padding: 15px;
+}
+
+    </style>
+
+   {% block head %}
+    {% endblock %}
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+          <a class="navbar-brand" href=" {{ url_for('index') }}">{% block app_name %}20th-Century American Bestsellers{% endblock %}</a>   
+     </div>
+        <div id="navbar" class="collapse navbar-collapse">
+{% block header_menu %}
+          <ul class="nav navbar-nav">
+           <li><a href="{{ url_for('submissions') }}">Browse the DB</a></li>
+	   <li class="dropdown">
+	     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Bestsellers by Decade<span class="caret"></span></a>
+	     <ul class="dropdown-menu">
+	       <li><a href="{{ url_for('decade', decade=1900) }}">1900-1909</a></li>
+	       <li><a href="{{ url_for('decade', decade=1910) }}">1910-1919</a></li>
+	       <li><a href="{{ url_for('decade', decade=1920) }}">1920-1929</a></li>
+	       <li><a href="{{ url_for('decade', decade=1930) }}">1930-1939</a></li>
+	       <li><a href="{{ url_for('decade', decade=1940) }}">1940-1949</a></li>
+	       <li><a href="{{ url_for('decade', decade=1950) }}">1950-1959</a></li>
+	       <li><a href="{{ url_for('decade', decade=1960) }}">1960-1969</a></li>
+	       <li><a href="{{ url_for('decade', decade=1970) }}">1970-1979</a></li>
+	       <li><a href="{{ url_for('decade', decade=1980) }}">1980-1989</a></li>
+	       <li><a href="{{ url_for('decade', decade=1990) }}">1990-1999</a></li>
+	     </ul>
+	   </li>
+           <li><a href="{{ g.settings['syllabus'] }}" target="_blank">Syllabus</a></li>
+           <li><a href="{{ url_for('students') }}">Students</a></li>
+	   
+	   {% if g.roles and 'Administrator' in g.roles %}
+	   <li><a href="{{ url_for('admin') }}">Admin</a></li>
+	   {% endif %}
+
+          </ul>
+{% endblock %}
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+
+      <div class="content">
+
+<!--h2>
+{% block page_heading %}
+Page Heading
+{% endblock %}
+</h2-->
+
+ {% if config.DEBUG %}
+        <span class="development">DEBUG = True</span>
+ {% endif %}
+ {% if config.DEV_SERVER %}
+        <span class="development">DEVELOPMENT SERVER</span>
+ {% endif %}
+
+
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+   
+    {% for category, message in messages %}
+      <div class="{{ category }}"><p>{{ message }}</p></div>
+    {% endfor %}
+    
+  {% endif %}
+{% endwith %}
+
+
+{% block main %} 
+
+{% endblock %} 
+
+
+
+</div>
+
+<div id="loggedin">
+  {% if g.user %}
+    You are logged in as: {{ g.user }}. (<a href="{{ url_for('user.logout') }}">Sign out</a>)
+  {% else %}
+    You are not logged in. (<a href="{{ url_for('user.login') }}">Sign in</a>)
+  {% endif %}
+</div>
+
+    </div><!-- /.container -->
+<div id="footer">
+  <span class="left">&copy; 2016 University of Virginia</span>
+  <span class="right">{% block footer_right %}For more information, contact <a href="http://people.virginia.edu/~jmu2m/">John Unsworth</a>, <a href="http://www.engl.virginia.edu/">Department of English, University of Virginia</a>{% endblock %}</span>
+  <div class="clear"></div>
+</div>
+
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="{{ url_for('static',filename='common/js/bootstrap.min.js') }}"></script>
+  </body>
+</html>

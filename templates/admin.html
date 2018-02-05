@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block main %}
+<style>
+  .success_now, .success_now td {
+  background-color: #DDFFDD;
+  }
+  
+  .success, .success td {
+  background-color: #FFFFFF;
+  transition: all 0.5s ease;
+  }
+
+</style>
+<script>
+  function success(id){
+    $('#'+id).addClass('success_now');
+  
+    setTimeout(function(){
+      $('#'+id).addClass('success');
+    }, 100);
+
+    setTimeout(function(){
+      $('#'+id).removeClass('success_now');
+      $('#'+id).removeClass('success');
+    }, 1000);
+  }
+  
+  $(document).ready(function(){
+
+    $('.update').click(function(){
+      var n = $(this).attr('name');
+      n = n.split('_')[1];
+      var v = $('#'+n).val();
+      $.getJSON("{{ url_for('ajax', method='update_setting') }}",{name: n, value: v}).done(function(data){
+        if(data['msg']=='success'){
+          success(n);} 
+        else{
+          var msg = "Something went wrong while updating the `"+n+"` setting.\n\nPlease refresh and try again.";
+          msg += "\n\nIf this continues to error, please contact the application administrator.";
+          alert(msg);}
+      })
+    });
+  
+    $('.update_user').click(function(){
+      var n = $(this).attr('name');
+      n = n.split('update_')[1];
+      var email = $('#'+n+'_email').val();
+      var anon = $('#'+n+'_anon').prop('checked');
+      //alert(n+"\n"+email+"\n"+anon);
+      $.getJSON("{{ url_for('ajax', method='update_user') }}",{username: n, email: email, anon: anon}).done(function(data){
+        if(data['msg']=='success'){
+          success("row_"+n);} 
+        else{
+          var msg = "Something went wrong while updating the user `"+n+"`.\n\nPlease refresh and try again.";
+          msg += "\n\nIf this continues to error, please contact the application administrator.";
+          alert(msg);}
+      });      
+    });
+
+    $('#users').dataTable();
+  });
+</script>
+
+{% for setting in settings %}
+<form role="form" class="form-group form-inline">
+  <label class="control-label col-sm-2" for="{{ setting.name }}">{{ setting.name }}</label>
+  <div class="form-group col-sm-8">
+    <input type="text" class="form-control input-sm setting" style="width:100%" value="{{ setting.value }}" 
+	   name="{{ setting.name }}" id="{{ setting.name }}" />
+  </div>
+  <div class="form-group col-sm-2">
+    <input type="button" class="form-control input-sm btn btn-primary update" value="Update" name="update_{{ setting.name }}"/> 
+  </div>
+</form>
+{% endfor %}
+<div style="border-bottom:1px solid #ccc;clear:both;height:0.5em;margin:5px 0px;">
+</div>
+{% if users %}
+<table name="users" id="users">
+<thead>
+  <tr>
+    <th>Name</th><th>Email</th><th>Book</th><th>Anonymous</th><th></th>
+  </tr>
+</thead>
+<tbody>
+{% for u in users %}
+<tr id="row_{{ u.username }}">
+  <td>{{ u.admin_name }}</td>
+  <td><input type="text" id="{{ u.username }}_email" value="{{ u.email }}" class="form-control" /></td>
+  {% if u.book %}
+  <td><a href="{{ url_for('view_submission', user_id=u.id) }}">{{ u.book.title }}</a></td>
+  {% else %}
+  <td><em>Not yet selected</em></td>
+  {% endif %}
+  <td><input type="checkbox" id="{{ u.username }}_anon" {% if u.anonymous %} checked="checked" {% endif %} /></td>
+  <td><input type="button" class="form-control input-sm btn btn-primary update_user" value="Update" name="update_{{ u.username }}" /></td>
+</tr>
+
+
+{% endfor %}
+</tbody>
+</table>
+{% endif %}
+
+{% endblock %}

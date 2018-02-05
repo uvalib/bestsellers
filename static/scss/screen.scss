@@ -1,0 +1,143 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+/*
+@import "compass/reset";
+
+* {
+    box-sizing: border-box;
+}
+
+html { 
+    background: url('/static/images/bookshelves.jpg') no-repeat center center fixed; 
+    background-size: cover;
+}
+
+html, body {
+    margin:0px;
+    padding:0px;
+    font-family: 'Open Sans','Arial', sans-serif;   
+}
+
+#main {
+    background-color:rgba(255,255,255,0.95);
+    max-width: 1200px;
+    margin:0px auto 5px;
+    border: 1px solid #552700;
+    border-top:0px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    padding:15px;
+    position:relative;
+    line-height:1.25em;
+    
+    #header {
+	h2 {
+	    font-size:1.5em;
+	    padding: 1em 1em 1em 0em;
+	}
+    }
+    
+}
+
+#login_info {
+    padding-top:8px;
+    float:right;
+}
+
+header {
+    color:#CCC;
+    font-size:.8em;
+    background-color: #804515;
+    height:34px;
+    width:100%;
+
+    .constrain {
+	margin: 0 auto;
+	max-width: 1200px;
+    }
+    
+}
+
+table tr:nth-child(even) {
+    /*http://paletton.com/#uid=10u0u0kllllaFw0g0qFqFg0w0aF*//*
+    background-color:#FFD1AA;
+
+
+}
+
+
+fieldset {
+    border-radius: 8px;
+    border: 1px solid #CCCCCC;
+    margin: 8px auto;
+
+    table {
+	width: 100%;
+    }
+  
+}
+
+a {
+    text-decoration:none;
+    color: #000022;
+}
+
+*/
+
+.right {
+    float: right;
+}
+
+.left {
+    float: left;
+}
+
+.clear {
+    clear: both;
+}
+.big {
+    font-size: 1.5em;
+}
+
+.quote {
+    width:50%;
+    min-width: 200px;
+    margin: 20px auto;
+    
+    color: #CC9900;
+    
+    .text {
+	font-size: 1.3em;
+	font-family: Georgia, serif;	
+    }
+    .citation {
+	font-size: 0.7em;
+    }
+}
+
+#bestsellers_container {
+    width: 50%;
+    margin: 10px auto;
+}
+
+#bestsellers_link {
+    height:100px;
+    border: 1px solid #EEE;
+    .text {
+	font-size: 2em;
+	/*font-family: Georgia, serif;*/
+	
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+    }
+}
+
+#bestsellers_by_decade {
+    td {
+	border:1px solid #EEE;
+    }
+}

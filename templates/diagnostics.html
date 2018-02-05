@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block header %}
+<h2>Diagnostics Information</h2>
+{% endblock %}
+
+{% block main %}
+<fieldset>
+  <legend>URL Rules</legend>
+  <table>
+    <tr>
+      <th>URL</th>
+      <th>View</th>
+    </tr>
+    {% for rule in rules %}
+    <tr>
+      <td class="{{ loop.cycle('even','odd') }}">
+	<a href="{{ rule[0] }}"> {{ rule[0] }} </a>
+      </td>
+      <td class="{{ loop.cycle('even','odd') }}">
+	{{ rule[1] }}
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</fieldset>
+
+<fieldset>
+  <legend>Database Info</legend>
+  <p>{{ db_uri }}</p>
+  <p>Can connect? <strong>{% if db_can_connect %}Yes{% else %}No{% endif %}</strong></p>
+  {% if db_can_connect %}
+  {% if tables %}
+  <table>
+    <tr>
+      <th>Tables</th>
+    </tr>
+    {% for table in tables %}
+    <tr>
+      <td class="{{ loop.cycle('even','odd') }}">{{ table }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% endif %}
+  {% endif %}
+
+</fieldset>
+
+<fieldset>
+  <legend>User Info</legend>
+  {% if dev_server %}
+  <p>It looks like you're running this via the Flask Development server (etc/runserver.py), so we're pulling the logged in user from SANDBOX_USER in config_sandbox.py, since the Flask Development server isn't behind Shibboleth. Yes this means you can pretend to be any user you want, this is sometimes useful.</p>
+  <p>
+    {% if g.user is not none %}
+    SANDBOX_USER = {{ g.user }}
+    {% else %}
+    SANDBOX_USER = None -- It looks like you want to pretend to be not logged in.
+    {% endif %}
+  </p>
+  {% else %}
+  <p>
+    It looks like you're running this via Apache, so we're pulling the logged in user from Flask's global "g.user" (which is populated with current_user.username).
+    <p>
+      It looks like you are currently: 
+      {% if g.user is none %}
+      NOT logged in.
+      {% else %}
+      logged in as {{ g.user }}
+      {% endif %}
+    </p>
+  </p>  
+{% endif %}
+</fieldset>
+
+{% endblock %}

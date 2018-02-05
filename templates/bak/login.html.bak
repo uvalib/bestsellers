@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block header %}
+<h2>20th-Century American Bestsellers</h2>
+The 20th-Century American Bestsellers Database consists of work done by undergraduate and graduate students at the University of Virginia, the University of Illinois, Catholic University, and Brandeis University, from 1998 to the present.
+{% endblock %}
+
+{% block main %}
+
+
+
+{% endblock %}

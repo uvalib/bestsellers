@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block main %}
+<style>
+  .assignment .row:nth-child(even) {
+  background-color:#EEE;
+  }
+  .assignment img {
+  width:100px;
+  }
+  u {
+  text-decoration: underline;
+  }
+  .row {
+  padding:5px;
+  }
+</style>
+
+<h2>{{ researcher.book.author }}: {{ researcher.book.title }} <br /><small>(researched by {{ researcher.name }})</small></h2>
+<form id="assignment_form" method="POST" enctype="multipart/form-data">
+  <input type="hidden" name="user_id" value="{{ researcher.id}}" />
+  <input type="hidden" name="assignment_id" value="{{ assignment.id}}" />
+  <fieldset class="assignment">
+    <b><legend>Assignment {{ assignment.order }}: {{ assignment.name }}</legend></b>
+<!--   <p>
+      {% include 'help/a%dtext.html' % assignment.id %}
+    </p>--> 
+
+    {% for q in assignment.questions %}
+    <div class="row text-left">
+      <div class="col-md-4">
+      <strong>{{ q.order }} {{ q.text }}</strong>
+      </div>
+      <div class="col-md-8">
+	{% if q.type == 'image'%}
+	<!-- handle image upload -->
+	<input type="file" id="question_{{ q.id }}" name="question_{{ q.id }}"/>
+	{% if answers[q.id] %}
+	<a target="_blank" href="{{ url_for('static', filename='submitted_images/'+answers[q.id]) }}"><img src="{{ url_for('static', filename='submitted_images/'+answers[q.id]) }}" /></a>
+	{% endif %}
+	
+	{% else %}
+	<!-- textarea -->
+	<textarea id="question_{{ q.id }}" name="question_{{ q.id }}" columns="12" rows="4">
+	  {{ answers[q.id] }}
+	</textarea>
+	
+	{% endif %}
+      </div>
+    </div>
+    {% endfor %}
+
+  </fieldset>
+
+      <div class="col-md-4">
+
+      </div>
+      <div class="col-md-8 text-left">
+	<input type="button" value="Save this Assignment" class="btn btn-primary" onclick="safeExit(); this.form.submit();" />
+      </div>
+
+  
+
+</form>
+
+<!--script src="//cdn.ckeditor.com/4.5.5/standard/ckeditor.js"></script-->
+<!--script src="//cdn.ckeditor.com/4.5.5/full/ckeditor.js"></script-->
+<script src="{{ url_for('static', filename='js/ckeditor/ckeditor.js') }}"></script>
+<script>  
+  {% for q in assignment.questions %}{% if q.type == 'text' %}
+  CKEDITOR.replace('question_{{ q.id }}', {
+    width: '100%',
+    height: 100
+  });{% endif %}{% endfor %}  
+
+  function confirmExit() {
+    window.onbeforeunload = function(e) {
+      return "You have unsaved changes, are you sure you want to leave the page?";
+    };
+  }
+  function safeExit(){
+    window.onbeforeunload = null;
+  }
+  
+  $(document).ready(function(){
+    // Warn if textarea changes if for whatever reason CKEDITOR does not work
+    $('textarea').change(function(){
+      confirmExit();
+    });
+    
+    // Warn if CKEDITOR changes
+    for (var i in CKEDITOR.instances) {
+      CKEDITOR.instances[i].on('change', function() {
+        confirmExit();
+      });
+    }
+  });
+
+</script>
+{% endblock %}

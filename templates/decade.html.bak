@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block main %}
+<script>
+  $(function() {
+    $('#quick_search').keyup(quick_search);
+  });
+
+  function quick_search(){
+    var matches = []
+    $('.quick_search_row').hide();
+    $('.quick_searchable').each(function(){
+      var rs = $(this).text().trim().toLowerCase();
+      if(rs.indexOf($("#quick_search").val().toLowerCase()) != -1){
+        $(this).parent().show();
+      }
+    });
+  }
+</script>
+
+<style>
+  tr td {
+    padding-left: 6px;
+  }
+</style>
+<input type="text" placeholder="Title/Author Filter" id="quick_search" class="right"/>
+<table id="decades">
+  <thead>
+  <tr>
+    <th>Taken</th>
+    <th>Rank</th>
+    <th class="text-left">Title</th>
+    <th class="text-left">Author</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for year, type in decade.iteritems() %}
+    {% for t, items in type.iteritems() %}
+  <tr><td colspan="99" align="center"><h2>{{ year }}: {% if t == 'F' %}Fiction{% else %}Non-Fiction{% endif %}</h2></td></tr>
+  {% for item in items %}
+  <tr class="quick_search_row">
+    <td class="quick_searchable">{% if item.book.taken_by %}<a href="{{ url_for('view_submission', user_id=item.book.taken_by) }}">
+	View Entry</a>{% endif %}</td> 
+    <td class="quick_searchable">{{ item.rank }}</td>
+    <td class="quick_searchable text-left">{{ item.book.title }}</td>
+    <td class="quick_searchable text-left">{{ item.book.author }}</td>
+  </tr>
+  {% endfor %}
+
+  {% endfor %}  
+  {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

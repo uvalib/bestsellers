@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block main %}
+<style>
+  .assignment img {
+  width:100px;
+  }
+  u {
+  text-decoration: underline;
+  }
+  .row {
+  padding:5px;
+  }
+  
+</style>
+
+<h2>{{ researcher.book.author }}: {{ researcher.book.title }} <br /><small>(researched by {{ researcher.name }})</small></h2>
+
+<fieldset class="assignment">
+  <legend>Add new supplement</legend>
+  <form id="add_supplement_form" method="POST" enctype="multipart/form-data">
+    
+    <div class="row text-left">
+      <input type="hidden" name="user_id" value="{{ researcher.id }}" />
+      
+      <div class="col-md-4">
+	<label for="supplement_description">Enter a <strong>short</strong> description of this supplement</label>
+      </div>
+      
+      <div class="col-md-8">
+	<input type="text" name="supplement_description" id="supplement_description" placeholder="Short description" />
+      </div>
+    </div>
+    
+    <div class="row text-left">
+      <div class="col-md-4">
+	<label>Choose a type of supplement</label>
+      </div>
+      
+      <div class="col-md-8">
+	<label for="type_image">image</label>
+	<input type="radio" name="action" value="add_new_image" id="type_image" onclick="radioToggle('type_image','type_text')" />
+	<label for="type_text">text</label>
+	<input type="radio" name="action" value="add_new_text" id="type_text" onclick="radioToggle('type_text','type_image')" />
+      </div>
+    </div>
+    
+    <div class="row text-left type_image">
+      <div class="col-md-4">
+	<label for="supplement_new_image">Select an image file to upload</label>
+      </div>
+      <div class="col-md-8">
+	<input type="file" id="supplement_new_image" name="supplement_new_image" />
+      </div>
+    </div>
+    
+    <div class="row text-left type_text">
+      <div class="col-md-4">
+	<label for="supplement_new_text">Enter the full text</label>
+      </div>
+      
+      <div class="col-md-8">
+	<textarea name="supplement_new_text" id="supplement_new_text" cols="12" rows="4"></textarea>
+      </div>
+    </div>
+    
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-8 text-left">
+      <input type="button" value="Add this supplement" class="btn btn-primary" onclick="safeExit();this.form.submit();" />
+    </div>
+    
+  </form>
+  
+</fieldset>
+
+{% if supplements %}
+<fieldset class="assignment">
+  <legend>Edit Supplements</legend>
+  {% for sup in supplements %}
+  <form method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="user_id" value="{{ researcher.id}}" />
+    <input type="hidden" name="supplement_id" value="{{ sup.id }}" />
+    <input type="hidden" name="action" value="edit_supplement" />
+
+    <div class="row text-left">
+      <div class="col-md-4">
+	<strong>{{ sup.id }}: {{ sup.description }}</strong>
+	<br /><a href="{{ url_for('edit_supplement',supplement_id=sup.id) }}">(Edit this supplement)</a>
+      </div>
+      <div class="col-md-8">
+	{% if sup.type == 'image'%}
+	<!-- handle image upload -->
+	<a target="_blank" href="{{ url_for('static', filename='submitted_images/'+sup.data) }}"><img src="{{ url_for('static', filename='submitted_images/'+sup.data) }}" alt="{{ sup.description }}" /></a><br />
+	
+	{% else %}
+	<!-- textarea -->
+	<fieldset>
+	  <legend>{{ sup.description }}</legend>
+	  {{ sup.data|safe }}
+	</fieldset>
+	{% endif %}
+	<hr />
+      </div>
+    </div>
+  </form>
+  {% endfor %}
+  
+</fieldset>
+{% endif %}
+
+<!--script src="//cdn.ckeditor.com/4.5.5/standard/ckeditor.js"></script-->
+<!--script src="//cdn.ckeditor.com/4.5.5/full/ckeditor.js"></script-->
+<script src="{{ url_for('static', filename='js/ckeditor/ckeditor.js') }}"></script>
+<script>
+  
+  CKEDITOR.replace('supplement_new_text', {
+    widht: '100%',
+    height: 100
+  });
+  
+  function confirmExit() {
+    window.onbeforeunload = function(e) {
+      return "You have unsaved changes, are you sure you want to leave the page?";
+    };
+  }
+  function safeExit(){
+    window.onbeforeunload = null;
+  }
+  
+
+  $(document).ready(function(){
+    // Warn if textarea changes if for whatever reason CKEDITOR does not work
+    $('textarea').change(function(){
+      confirmExit();
+    });
+  
+    // Hide forms until they choose text / image
+    $('.type_image').hide();
+    $('.type_text').hide();
+    
+    
+    
+    // Warn if CKEDITOR changes
+    for (var i in CKEDITOR.instances) {
+      CKEDITOR.instances[i].on('change', function() {
+        confirmExit();
+      });
+    }
+
+  });
+
+  function radioToggle(class1, class2) {
+    // show class1, hide class2
+    $('.'+class1).show();
+    $('.'+class2).hide();
+  }
+
+</script>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block main %}
+<style>
+  .assignment .row:nth-child(even) {
+  background-color:#EEE;
+  }
+  .assignment img {
+  width:100px;
+  }
+  .highlight {
+  background-color: #FFFF88;
+  }
+</style>
+
+<h2>{{ researcher.book.author }}: {{ researcher.book.title }}
+
+{% if g.roles and 'Administrator' in g.roles %}
+<span class="right">
+<form action="" method="POST" onsubmit="return confirm('Are you sure you want to delete this entry for `{{ researcher.book.title }}`?\n\nThis action can not be undone.');">
+  <input type="hidden" value="remove" name="remove" />
+  <input type="submit" value="Delete this entry" class="btn" />
+</form>
+</span>
+{% endif %}
+
+
+<br /><small>(researched by {{ researcher.name }})</small></h2>
+
+
+
+
+{% for assign in sub %}
+
+<fieldset class="assignment">
+
+ <legend><span style="background-color:lightblue"><br/>Assignment {{ assign.order }}: {{ assign.name }}
+
+    {% if g.roles and 'Administrator' in g.roles %}
+    <span class="right">
+      <input type="submit" value="Edit this assignment" class="btn" onclick="window.location='{{ url_for('admin_edit', user_id=researcher.id, assign_id=assign.id) }}'" />
+    </span>
+    {% endif %}
+  </span></legend>
+
+    {% for q in assign.questions %}
+    <div class="row text-left">
+      <div class="col-md-3 ">
+      <br/><p><strong>{{ q.order }} {{ q.text }}</strong></p>
+      </div>
+      <div class="col-md-9"><br/><p>
+	{% if q.type == 'image' and q.answer != ''%}
+	<a target="_blank" href="{{ url_for('static', filename='submitted_images/'+q.answer) }}"><img src="{{ url_for('static', filename='submitted_images/'+q.answer) }}" /></a>
+	{% else %}
+	{{ q.answer|safe }}
+	{% endif %}</p>
+      </div>
+    </div>
+    {% endfor %}
+
+  </fieldset>
+  
+{% endfor %}
+
+{% if supplements %}
+<fieldset class="assignment">
+  <legend><span style="background-color:lightblue"><br/>Supplemental Material</span></legend>
+  {% for sup in supplements %}
+  <div class="row text-left">
+    <div class="col-md-3"><br/><p>
+      {% if sup.description %}
+      {{ sup.description }}
+      {% endif %}</p>
+    </div>
+    <div class="col-md-9"><br/><p>
+      {% if sup.type == 'image' %}
+      <a target="_blank" href="{{ url_for('static', filename='submitted_images/'+sup.data) }}"><img src="{{ url_for('static', filename='submitted_images/'+sup.data) }}" /></a>
+      {% else %}
+      {{ sup.data|safe }}
+      {% endif %}</p>
+    </div>
+  </div>
+  {% endfor %}
+  
+</fieldset>
+{% endif %}
+
+
+{% if request.args.get('hl') %}
+<script>
+$(function() {
+  $("div").highlight("{{ request.args.get('hl') }}");
+  $('html, body').animate({
+    scrollTop: $(".highlight").offset().top-100
+  }, 500);
+});
+</script>
+{% endif %}
+
+{% endblock %}
