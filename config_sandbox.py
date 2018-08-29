@@ -5,3 +5,6 @@
 #SANDBOX_USER = 'welchj' # Your uid goes here. Used for setting the user for the flask development server (etc/runserver.py) since that is outside of shib. Ignored by Apache.
 
 #UPLOAD_FOLDER = '/home/welchj/data/bestsellers/images/'
+
+import os
+SANDBOX_PORT = int( os.environ['BS_PORT'] )

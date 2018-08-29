@@ -1,3 +1,5 @@
+import os
+
 CSRF_ENABLED = True
 SECRET_KEY = 'MvjhCIQhA5ZaSa32iFAr9dP8gsIdhB058IjBr3ph'
 DEBUG = False
@@ -13,10 +15,10 @@ LOG_DIR = '/var/log/bestsellers/logs/' # you may want to manually make sure this
 UPLOAD_FOLDER = '/var/www/pyapps/bestsellers/static/data/bestsellers/images/'
 ALLOWED_EXTENSIONS = set(['png', 'PNG', 'jpg', 'jpeg', 'JPG', 'JPEG', 'gif', 'GIF'])
 
-DB_NAME = 'bestsellers'
-DB_HOST = 'db1.lib.virginia.edu'
-DB_PASS = 'Qw6849ICvep'
-DB_USER = 'bestsellers'
+DB_NAME = os.environ['BS_DB_NAME']
+DB_HOST = os.environ['BS_DB_HOST']
+DB_PASS = os.environ['BS_DB_PASS']
+DB_USER = os.environ['BS_DB_USER']
 
 BINDS = {
     'dbuser': 'mysql+mysqldb://'+DB_USER+':'+DB_PASS+'@'+DB_HOST+'/'+DB_NAME
