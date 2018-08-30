@@ -17,3 +17,4 @@ passlib==1.6.2
 py-bcrypt==0.4
 pycrypto==2.6.1
 wsgiref==0.1.2
+gunicorn==19.9.0

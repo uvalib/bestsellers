@@ -1,1 +1,2 @@
-python etc/runserver.py
+cd /
+gunicorn -w 4 -b 0.0.0.0:$BS_PORT bestsellers:app
