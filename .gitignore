@@ -1,3 +1,4 @@
 .idea/*
 env.*
 *.pyc
+static/submitted_images
