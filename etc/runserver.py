@@ -39,5 +39,7 @@ if 'WERKZEUG_RELOADER' in os.environ:
 os.environ['WERKZEUG_RELOADER'] = 'TRUE'
 
 ip = socket.gethostbyname(socket.getfqdn())
-application.config['DEV_SERVER'] = True
-application.run(host=ip,debug=True,port=application.config.get('SANDBOX_PORT'))
+#application.config['DEV_SERVER'] = True
+#application.run(host=ip,debug=True,port=application.config.get('SANDBOX_PORT'))
+application.config['DEV_SERVER'] = False
+application.run(host=ip,debug=False,port=application.config.get('SANDBOX_PORT'))
