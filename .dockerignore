@@ -1,5 +1,10 @@
+.AppleDouble
+.DS_Store
+.git
+.dockerignore
+.gitignore
 bestsellers.sql
 static/images
-static/images.tar
+static/images.tar.gz
 static/data
 scripts/docker

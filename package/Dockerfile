@@ -24,12 +24,19 @@ ADD . $APP_HOME
 # Update permissions
 RUN chown -R webservice $APP_HOME /home/webservice && chgrp -R webservice $APP_HOME /home/webservice
 
-# Specify the user
-USER webservice
-
 # Define port and startup script
-EXPOSE 8466
+EXPOSE 8080
 CMD scripts/entry.ksh
 
 # Move in other assets
 COPY data/container_bash_profile /home/webservice/.profile
+
+# Ensure permissions are correct
+RUN chown webservice:webservice /home/webservice/.profile $APP_HOME/scripts/entry.ksh && chmod 755 /home/webservice/.profile $APP_HOME/scripts/entry.ksh
+
+# Add the build tag
+ARG BUILD_TAG
+RUN test -n "$BUILD_TAG" && touch $APP_HOME/buildtag.build-$BUILD_TAG || touch $APP_HOME/buildtag.build-0
+
+# Specify the user
+USER webservice

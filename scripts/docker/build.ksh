@@ -11,4 +11,4 @@ echo "*****************************************"
 echo "building on $DOCKER_HOST"
 echo "*****************************************"
 
-docker build -t $NAMESPACE/$INSTANCE .
+docker build -f package/Dockerfile -t $NAMESPACE/$INSTANCE .

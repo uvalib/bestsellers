@@ -11,7 +11,7 @@ fi
 
 # move to root and start the application server
 cd ..
-gunicorn -w 4 -b 0.0.0.0:$BS_PORT bestsellers:app
+gunicorn -w 4 -b 0.0.0.0:8080 bestsellers:app
 
 #
 # end of file
