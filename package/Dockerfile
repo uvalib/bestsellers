@@ -21,6 +21,9 @@ RUN pip install -r requirements.txt
 # install the application
 ADD . $APP_HOME
 
+# cleanup the scripts
+RUN mv package/scripts $APP_HOME && rm $APP_HOME/scripts/build.ksh $APP_HOME/scripts/shell.ksh $APP_HOME/scripts/run.ksh
+
 # Update permissions
 RUN chown -R webservice $APP_HOME /home/webservice && chgrp -R webservice $APP_HOME /home/webservice
 
