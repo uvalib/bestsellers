@@ -35,7 +35,7 @@
   </thead>
   <tbody>
   {% for year in years %}
-    {% for t, items in decade[year].iteritems() %}
+    {% for t, items in decade[year].items() %}
   <tr><td colspan="99" align="center"><h2>{{ year }}: {% if t == 'F' %}Fiction{% else %}Non-Fiction{% endif %}</h2></td></tr>
   {% for item in items %}
   <tr class="quick_search_row">

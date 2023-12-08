@@ -1,6 +1,6 @@
 from bestsellers import app, db
-from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.user import UserMixin
+from flask_sqlalchemy import SQLAlchemy
+from flask_user import UserMixin
 
 def tablename(t):
     tname = app.config.get('TABLE_PREFIX')

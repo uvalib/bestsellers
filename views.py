@@ -1,7 +1,7 @@
 #from flask import /var/www/pyapps/bestsellers/render_template, g, request, redirect, url_for, flash, abort
 from flask import render_template, g, request, redirect, url_for, flash, abort
-from flask.ext.user import login_required, UserManager, roles_required
-from flask.ext.login import current_user
+from flask_user import login_required, UserManager, roles_required
+from flask_login import current_user
 
 from bestsellers import app, process, db
 from bestsellers.models import User, Assignments, Answers, Book, Setting, Supplement, Role
@@ -248,7 +248,7 @@ def render_static(page_name):
 
 @app.before_request
 def set_user():
-    if current_user.is_authenticated() and not current_user.is_anonymous():
+    if current_user.is_authenticated and not current_user.is_anonymous:
         g.user = current_user.username
         g.user_id = current_user.id
         g.roles = [r.name for r in User.query.get(g.user_id).roles]

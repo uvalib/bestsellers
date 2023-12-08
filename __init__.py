@@ -2,9 +2,9 @@
 import logging, sys
 
 from flask import Flask
-from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.user import UserManager, SQLAlchemyAdapter
-from flask.ext.mail import Mail
+from flask_sqlalchemy import SQLAlchemy
+from flask_user import UserManager, SQLAlchemyAdapter
+from flask_mail import Mail
 
 app = Flask(__name__)
 app.config.from_object('bestsellers.config')

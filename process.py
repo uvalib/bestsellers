@@ -45,7 +45,7 @@ def process_submission(user, request):
     form = request.form
     assignment = Assignments.query.get(form.get('assignment_id'))
 
-    print dir(request.files)
+    print(dir(request.files))
     for q in assignment.questions:
         # Get exsting answer or create new
         answer = Answers.query.filter_by(question_id=q.id, user_id=user.id).first()
@@ -67,7 +67,7 @@ def process_submission(user, request):
                 ext = file.filename.rsplit('.', 1)[1]
                 # Standardize filename
                 filename = 'A{0}Q{1}_{2}_{3}.{4}'.format(assignment.id, q.id, user.id, int(time.time()), ext)
-		old_filepath=''
+                old_filepath=''
                 if answer.text:
                     old_filepath = os.path.join(app.config['UPLOAD_FOLDER'], answer.text)
                 filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
@@ -125,7 +125,7 @@ def process_supplements(user, request):
         
         # Don't save empty responses
         if text and len(text) > 0:
-            print "INFO: text is good!"
+            print("INFO: text is good!")
             db.session.add(sup)
             db.session.commit()
         else:
@@ -145,7 +145,7 @@ def process_supplements(user, request):
             db.session.delete(sup)
             db.session.commit()
     else:
-        print "ERROR: This shouldn't happen, but the action was: ",form.get('action')
+        print("ERROR: This shouldn't happen, but the action was: ",form.get('action'))
     return True
 
 def edit_supplement(user, sup, request):

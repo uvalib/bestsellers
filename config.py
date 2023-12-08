@@ -28,7 +28,7 @@ SQLALCHEMY_POOL_RECYCLE = 300
 
 
 # Mail stuff
-MAIL_SERVER = 'localhost'
+MAIL_SERVER = 'out.mail.virginia.edu'
 MAIL_PORT = 25
 MAIL_DEFAULT_SENDER = '"Bestsellers Database" <noreply@uva.edu>';
 
