@@ -6,5 +6,5 @@
 
 #UPLOAD_FOLDER = '/home/welchj/data/bestsellers/images/'
 
-import os
-SANDBOX_PORT = int( os.environ['BS_PORT'] )
+#import os
+#SANDBOX_PORT = int( os.environ['BS_PORT'] )
