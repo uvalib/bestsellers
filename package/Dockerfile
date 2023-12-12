@@ -1,4 +1,4 @@
-FROM python:2.7.13-alpine
+FROM public.ecr.aws/docker/library/python:3.9.16-alpine3.18
 
 # update the packages
 RUN apk update && apk upgrade && apk add build-base bash tzdata mysql-dev libffi-dev && rm -fr /var/cache/apk/*
